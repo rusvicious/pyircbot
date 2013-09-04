@@ -1,9 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: cp1251 -*-
-import socket,time, random, urllib2 
+import socket,time, random, urllib2, ConfigParser;
 
-host='irc.ru'
-channel='#channel'
+config = ConfigParser.RawConfigParser()
+config.read('bot.cfg')
+
+host = config.get("General","host")
+channel = config.get("General","channel")
+nick = config.get("General","nick")
+uname = config.get("General","uname")
+password = config.get("General","password")
 
 def getUrl():
 	number = random.randrange(7600)
@@ -29,9 +35,9 @@ def getNick(text):
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
 sock.connect((host, 6667)) 
 
-sock.send('USER pybot host servname : pyIRCBot - Python Bot\r\n') 
-sock.send('NICK pyBot\r\n')
-sock.send('IDENTIFY password\r\n')  
+sock.send('USER '+uname+' host servname : Boobsy - Python Bot by RusVicious\r\n') 
+sock.send('NICK '+nick+'\r\n')
+sock.send('IDENTIFY '+password+'\r\n')  
 
 while 1:
 	text = sock.recv(2040)
@@ -45,13 +51,13 @@ while 1:
 		if(getNick(text) == 'Trollface'):
 			sock.send('QUIT :I\'ll be back!\r\n')
 		else:
-			sendm(getNick(text) +': РќРµ РєРѕРјР°РЅРґСѓР№ РјРЅРµ, С‚С‹ РЅРµ РјРѕР№ С…РѕР·СЏРёРЅ!')
+			sendm(getNick(text) +': Не командуй мне, ты не мой хозяин!')
 
-	if (text.find(':bot') != -1) or (text.find(':Р±РѕС‚') != -1):
-		sendm(getNick(text) +': РљС‚Рѕ Р±РѕС‚, С‚С‹ Р±РѕС‚ С‘РїС‚Р°!')
+	if (text.find(':bot') != -1) or (text.find(':бот') != -1):
+		sendm(getNick(text) +': Кто бот, ты бот ёпта!')
 
 	if text.find('JOIN :'+ channel) != -1:
-		sendm('Р—РґСЂР°СЃСЊС‚Рµ РІР°Рј')
+		sendm('Здрасьте вам')
 
 	if text.find(':KICK') != 1:
 		sock.send('JOIN '+ channel +'\r\n')
@@ -59,7 +65,7 @@ while 1:
 	if text.find(':!date') != -1:
 		sendm(''+ time.strftime("%A, %B %d, %Y", time.localtime()))
 	
-	if text.find(':!СЃРёСЃСЊРєРё') != -1:
+	if text.find(':!сиськи') != -1:
 		sendm(getBoobs(getUrl()))
 	
 	if text.find(':!time') != -1:
