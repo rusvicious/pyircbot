@@ -45,13 +45,13 @@ while 1:
 		if(getNick(text) == 'Trollface'):
 			sock.send('QUIT :I\'ll be back!\r\n')
 		else:
-			sendm(getNick(text) +': Не командуй мне, ты не мой хозяин!')
+			sendm(getNick(text) +': РќРµ РєРѕРјР°РЅРґСѓР№ РјРЅРµ, С‚С‹ РЅРµ РјРѕР№ С…РѕР·СЏРёРЅ!')
 
-	if (text.find(':bot') != -1) or (text.find(':бот') != -1):
-		sendm(getNick(text) +': Кто бот, ты бот ёпта!')
+	if (text.find(':bot') != -1) or (text.find(':Р±РѕС‚') != -1):
+		sendm(getNick(text) +': РљС‚Рѕ Р±РѕС‚, С‚С‹ Р±РѕС‚ С‘РїС‚Р°!')
 
 	if text.find('JOIN :'+ channel) != -1:
-		sendm('Здрасьте вам')
+		sendm('Р—РґСЂР°СЃСЊС‚Рµ РІР°Рј')
 
 	if text.find(':KICK') != 1:
 		sock.send('JOIN '+ channel +'\r\n')
@@ -59,7 +59,7 @@ while 1:
 	if text.find(':!date') != -1:
 		sendm(''+ time.strftime("%A, %B %d, %Y", time.localtime()))
 	
-	if text.find(':!сиськи') != -1:
+	if text.find(':!СЃРёСЃСЊРєРё') != -1:
 		sendm(getBoobs(getUrl()))
 	
 	if text.find(':!time') != -1:
