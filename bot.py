@@ -1,15 +1,37 @@
 #!/usr/bin/env python
 # -*- coding: cp1251 -*-
-import socket,time, random, urllib2, ConfigParser;
+import os, io, socket, time, random, urllib2, ConfigParser;
 
-config = ConfigParser.RawConfigParser()
-config.read('bot.cfg')
 
-host = config.get("General","host")
-channel = config.get("General","channel")
-nick = config.get("General","nick")
-uname = config.get("General","uname")
-password = config.get("General","password")
+def DefaultConfig():
+	host = "irc.wenet.ru"
+	channel = "#Bryansk"
+	nick = "Guest" + str(random.randrange(10000))
+	uname = "guest" + str(random.randrange(10000))
+	password = "qwerty"
+
+def getConfig():
+	if os.path.exists('bot.cfg'):
+		config = ConfigParser.RawConfigParser()
+		config.read('bot.cfg')
+		
+		host = config.get("General","host")
+		channel = config.get("General","channel")
+		nick = config.get("General","nick")
+		uname = config.get("General","uname")
+		password = config.get("General","password")
+	else:
+		DefaultConfig()
+		config = ConfigParser.RawConfigParser()
+		config.add_section('General')
+		config.set('General','host', host)
+		config.set('General','channel', channel)
+		config.set('General','nick', nick)
+		config.set('General','uname',uname)
+		config.set('General','password',password)
+		
+		with open('bot.cfg', 'wb') as configfile:
+		    config.write(configfile)
 
 def getUrl():
 	number = random.randrange(7600)
@@ -32,6 +54,7 @@ def getNick(text):
 	string = string[1:]
 	return string
 
+getConfig()
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
 sock.connect((host, 6667)) 
 
