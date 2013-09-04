@@ -1,0 +1,4 @@
+pyircbot
+========
+
+Python IRC Bot
