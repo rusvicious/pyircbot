@@ -1,4 +1,4 @@
-pyircbot
+pyIRCBot
 ========
 
 Python IRC Bot
