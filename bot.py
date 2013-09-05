@@ -16,7 +16,7 @@ def getNick(text):
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
 sock.connect((config.host, 6667)) 
 
-sock.send('USER '+config.uname+' host servname : Boobsy - Python Bot by RusVicious\r\n') 
+sock.send('USER '+config.uname+' host servname : '+config.nick+' - Python Bot by RusVicious\r\n') 
 sock.send('NICK '+config.nick+'\r\n')
 sock.send('IDENTIFY '+config.password+'\r\n')  
 
@@ -32,13 +32,13 @@ while 1:
 		if(getNick(text) == 'Trollface'):
 			sock.send('QUIT :I\'ll be back!\r\n')
 		else:
-			sendm(getNick(text) +': Не командуй мне, ты не мой хозяин!')
+			sendm(getNick(text) +': You are not my owner!')
 
-	if (text.find(':bot') != -1) or (text.find(':бот') != -1):
-		sendm(getNick(text) +': Кто бот, ты бот ёпта!')
+	if (text.find(':bot') != -1):
+		sendm(getNick(text) +': I\'m not bot!')
 
-	if text.find('JOIN :'+ config.channel) != -1:
-		sendm('Здрасьте вам')
+	if text.find('JOIN :' + config.channel) != -1:
+		sendm('Hello, ' + config.channel)
 
 	if text.find(':KICK') != 1:
 		sock.send('JOIN '+ config.channel +'\r\n')
