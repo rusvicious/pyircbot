@@ -2,7 +2,7 @@
 # -*- coding: cp1251 -*-
 import socket;
 from config import botConfig
-from boobs import getBoobs
+from boobs import getBoobsUrl
 
 class ircBot:
 
@@ -37,7 +37,7 @@ class ircBot:
 				self.sock.send('PONG ' + self.__text.split() [1] + '\r\n')
 				
 			if self.__text.find(':!boobs') != -1:
-				boobs = getBoobs()
+				boobs = getBoobsUrl()
 				self.sendm(boobs.url)
 			
 			print "[GET]", self.__text
