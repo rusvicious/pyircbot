@@ -26,5 +26,5 @@ class botConfig:
 			self.__config.set('General','uname',self.uname)
 			self.__config.set('General','password',self.password)
 		
-		with open('bot.cfg', 'wb') as configfile:
-		    self.__config.write(configfile)
+			with open('bot.cfg', 'wb') as configfile:
+				self.__config.write(configfile)
