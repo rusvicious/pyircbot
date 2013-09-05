@@ -33,19 +33,6 @@ def getConfig():
 		with open('bot.cfg', 'wb') as configfile:
 		    config.write(configfile)
 
-def getUrl():
-	number = random.randrange(7600)
-	url =    "http://media.oboobs.ru/boobs/0"+str(number)+".jpg"
-	return url;
-
-def getBoobs(url):
-	try:
-		urllib2.urlopen(url);
-		return url    
-	except urllib2.HTTPError, e:
-		if e.code != 200:
-			getBoobs(getUrl())
-
 def sendm(msg): 
 	sock.send('PRIVMSG '+ channel + ' :' + str(msg) + '\r\n')
 	
@@ -87,9 +74,6 @@ while 1:
 
 	if text.find(':!date') != -1:
 		sendm(''+ time.strftime("%A, %B %d, %Y", time.localtime()))
-	
-	if text.find(':!сиськи') != -1:
-		sendm(getBoobs(getUrl()))
 	
 	if text.find(':!time') != -1:
 		sendm(''+ time.strftime("%H:%M:%S", time.localtime()))
