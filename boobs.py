@@ -14,4 +14,5 @@ class getBoobsUrl:
 		except urllib2.HTTPError, e:
 			if e.code != 200:
 				self.getBoobs()
+		
 		return res

@@ -3,6 +3,7 @@
 import socket;
 from config import botConfig
 from boobs import getBoobsUrl
+from kote import getkoteUrl
 
 class ircBot:
 
@@ -39,6 +40,10 @@ class ircBot:
 			if self.__text.find(':!сиськи') != -1:
 				boobs = getBoobsUrl()
 				self.sendm(boobs.url)
+
+			if self.__text.find(':!котэ') != -1:
+				kote = getkoteUrl()
+				self.sendm(kote.url)
 			
 			print "[GET]", self.__text
 
