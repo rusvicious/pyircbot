@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: cp1251 -*-
-import os, socket, time, random, urllib2, ConfigParser;
+import socket;
 from config import botConfig
 
 class ircBot:

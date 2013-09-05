@@ -2,10 +2,11 @@ import os, ConfigParser, random
 
 class botConfig:
 	def __init__(self):
+		self.__randomnum = str(random.randrange(10000))
 		self.host = "irc.wenet.ru"
 		self.channel = "#Bryansk"
-		self.nick = "Guest" + str(random.randrange(10000))
-		self.uname = "guest" + str(random.randrange(10000))
+		self.nick = "Guest" + self.__randomnum
+		self.uname = "guest" + self.__randomnum
 		self.password = "qwerty"
 		
 		if os.path.exists('bot.cfg'):
