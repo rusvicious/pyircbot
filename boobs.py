@@ -6,7 +6,7 @@ class getBoobsUrl:
 	def getBoobs(self):
 		number = random.randrange(7600)
 		url =    "http://media.oboobs.ru/boobs/0"+str(number)+".jpg"
-		
+		res = 'There are no boobs'
 		try:
 			urllib2.urlopen(url)
 			res =  url
