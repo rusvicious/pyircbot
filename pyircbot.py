@@ -36,7 +36,7 @@ class ircBot:
 			if self.__text.find('PING') != -1: 
 				self.sock.send('PONG ' + self.__text.split() [1] + '\r\n')
 				
-			if self.__text.find(':!boobs') != -1:
+			if self.__text.find(':!сиськи') != -1:
 				boobs = getBoobsUrl()
 				self.sendm(boobs.url)
 			

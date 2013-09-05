@@ -6,12 +6,12 @@ class getBoobsUrl:
 	def getBoobs(self):
 		number = random.randrange(7600)
 		url =    "http://media.oboobs.ru/boobs/0"+str(number)+".jpg"
-				
+		
 		try:
 			urllib2.urlopen(url)
-			return url
+			res =  url
 
 		except urllib2.HTTPError, e:
 			if e.code != 200:
 				self.getBoobs()
-		return url
+		return res
