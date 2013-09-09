@@ -5,16 +5,24 @@ class getBoobsUrl:
     def __init__(self):
         self.url = self.getBoobs()
 
-    def getBoobs(self):
-        number = random.randrange(7600)
-        url = "http://media.oboobs.ru/boobs/0" + str(number) + ".jpg"
-        res = 'There are no boobs'
+    def getUrl(self):
+        result = True
+
+        number = random.randrange(7630)
+        url = 'http://media.oboobs.ru/boobs/0%s.jpg' % (str(number))
+        self.__url = url
+
         try:
             urllib2.urlopen(url)
-            res = url
 
         except urllib2.HTTPError, e:
             if e.code != 200:
-                self.getBoobs()
+                result = False
 
-        return res
+        return result
+
+    def getBoobs(self):
+        while not(self.getUrl()):
+            pass
+        return self.__url
+

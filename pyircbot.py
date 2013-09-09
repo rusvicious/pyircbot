@@ -16,14 +16,14 @@ class ircBot:
     def Connect(self):
         self.sock.connect((self.__config.host, 6667))
         self.sock.send(
-            'USER ' + self.__config.uname + ' host servname : ' + self.__config.nick + ' - Python Bot by RusVicious\r\n')
-        self.sock.send('NICK ' + self.__config.nick + '\r\n')
-        self.sock.send('IDENTIFY ' + self.__config.password + '\r\n')
-        self.sock.send('JOIN ' + self.__config.channel + '\r\n')
+            'USER %s host servname : %s  - Python Bot by RusVicious\r\n' % (self.__config.uname, self.__config.nick))
+        self.sock.send('NICK %s\r\n' % (self.__config.nick ))
+        self.sock.send('IDENTIFY %s\r\n' % (self.__config.password))
+        self.sock.send('JOIN %s\r\n' % (self.__config.channel))
         self.__listening()
 
-    def sendm(self, msg):
-        self.sock.send('PRIVMSG ' + self.__config.channel + ' :' + str(msg) + '\r\n')
+    def sendMessage(self, msg):
+        self.sock.send('PRIVMSG %s :%s\r\n' % (self.__config.channel, str(msg)))
 
     def getNick(self, text):
         string = text[:text.find('!')]
@@ -32,22 +32,29 @@ class ircBot:
 
     def __listening(self):
         while 1:
-            self.__text = self.sock.recv(2040)
-            if not self.__text:
-                break
+            try:
+                self.__text = self.sock.recv(2040)
+                if not self.__text:
+                    break
 
-            if self.__text.find('PING') != -1:
-                self.sock.send('PONG ' + self.__text.split()[1] + '\r\n')
+                if self.__text.find('PING') != -1:
+                    self.sock.send('PONG %s\r\n' % (self.__text.split()[1]))
 
-            if self.__text.find(':!сиськи') != -1:
-                boobs = getBoobsUrl()
-                self.sendm(boobs.url)
+                if self.__text.find('KICK') != -1:
+                    self.sock.send('JOIN %s\r\n' % (self.__config.channel))
 
-            if self.__text.find(':!котэ') != -1:
-                kote = getkoteUrl()
-                self.sendm(kote.url)
+                if self.__text.find(':!сиськи') != -1:
+                    boobs = getBoobsUrl()
+                    self.sendMessage(boobs.url)
 
-            print "[GET]", self.__text
+                if self.__text.find(':!котэ') != -1:
+                    kote = getkoteUrl()
+                    self.sendMessage(kote.url)
+
+                print "[GET]", self.__text
+
+            except socket.error, e:
+                self.Connect()
 
 
 if __name__ == '__main__':
