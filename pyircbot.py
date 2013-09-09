@@ -14,13 +14,17 @@ class ircBot:
         self.Connect()
 
     def Connect(self):
-        self.sock.connect((self.__config.host, 6667))
-        self.sock.send(
-            'USER %s host servname : %s  - Python Bot by RusVicious\r\n' % (self.__config.uname, self.__config.nick))
-        self.sock.send('NICK %s\r\n' % (self.__config.nick ))
-        self.sock.send('IDENTIFY %s\r\n' % (self.__config.password))
-        self.sock.send('JOIN %s\r\n' % (self.__config.channel))
-        self.__listening()
+        try:
+            self.sock.connect((self.__config.host, 6667))
+            self.sock.send(
+                'USER %s host servname : %s  - Python Bot by RusVicious\r\n' % (self.__config.uname, self.__config.nick))
+            self.sock.send('NICK %s\r\n' % (self.__config.nick ))
+            self.sock.send('IDENTIFY %s\r\n' % (self.__config.password))
+            self.sock.send('JOIN %s\r\n' % (self.__config.channel))
+            self.__listening()
+
+        except socket.error, e:
+            self.Connect()
 
     def sendMessage(self, msg):
         self.sock.send('PRIVMSG %s :%s\r\n' % (self.__config.channel, str(msg)))
