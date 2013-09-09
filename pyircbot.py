@@ -38,7 +38,10 @@ class ircBot:
                     break
 
                 if self.__text.find('PING') != -1:
-                    self.sock.send('PONG ' + self.__text.split()[1] + '\r\n')
+                    self.sock.send('PONG %s\r\n' % (self.__text.split()[1]))
+
+                if self.__text.find('KICK') != -1:
+                    self.sock.send('JOIN %s\r\n' % (self.__config.channel))
 
                 if self.__text.find(':!сиськи') != -1:
                     boobs = getBoobsUrl()
