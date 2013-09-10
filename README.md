@@ -3,7 +3,7 @@ pyIRCBot
 
 pyIRCBot is simple IRC Bot written on Python
 
-**Plugins**
+###Plugins
 
 boobs.py - Random boobs from oboobs.ru
 
