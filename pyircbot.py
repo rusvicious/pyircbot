@@ -3,9 +3,11 @@
 
 import socket
 import time
+import re
 from config import botConfig
 from boobs import getBoobsUrl
 from kote import getkoteUrl
+from title import getTitleText
 
 
 class ircBot:
@@ -67,6 +69,14 @@ class ircBot:
                 if self.__text.find(':!котэ') != -1:
                     kote = getkoteUrl()
                     self.sendMessage(kote.url)
+
+                if self.__text.find('http://') != -1:
+                    try:
+                        url = re.findall("/^(http:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/",self.__text)
+                        title = getTitleText(url[0])
+                        self.sendMessage(title.title)
+                    except:
+                        pass
 
                 print "[GET]", self.__text
 
