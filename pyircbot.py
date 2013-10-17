@@ -5,7 +5,7 @@ import socket
 import time
 import sys
 
-from config import botConfig
+from conf.config import botConfig
 from plugins.boobs import getBoobsUrl
 from plugins.kote import getkoteUrl
 
