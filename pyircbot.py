@@ -6,8 +6,8 @@ import time
 import sys
 
 from config import botConfig
-from boobs import getBoobsUrl
-from kote import getkoteUrl
+from plugins.boobs import getBoobsUrl
+from plugins.kote import getkoteUrl
 
 
 
