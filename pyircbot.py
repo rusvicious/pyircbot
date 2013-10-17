@@ -65,7 +65,6 @@ class ircBot:
 
                 if self.__text.find('KICK') != -1:
                     self.sock.send('JOIN %s\r\n' % (self.__config.channel))
-                    self.sendMessage('Hello, I\'m %s, my platform is %s' %(self.__config.nick, sys.platform))
 
                 if self.__text.find(':!сиськи') != -1:
                     boobs = getBoobsUrl()
