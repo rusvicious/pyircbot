@@ -52,6 +52,9 @@ class ircBot:
         string = text[:text.find('!')]
         string = string[1:]
         return string
+        
+    def mesEncode(self, text):
+        return text.encode(self.__config.charset)
 
     def __listening(self):
         while self.connected:

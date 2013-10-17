@@ -21,10 +21,12 @@ class botConfig:
             self.nick = self.__config.get("General", "nick")
             self.uname = self.__config.get("General", "uname")
             self.password = self.__config.get("General", "password")
+            self.charset = self.__config.get("General", "charset")
         else:
             self.__config = ConfigParser.RawConfigParser()
             self.__config.add_section('General')
             self.__config.set('General', 'host', self.host)
+            self.__config.set('General', 'charset', self.charset)
             self.__config.set('General', 'channel', self.channel)
             self.__config.set('General', 'nick', self.nick)
             self.__config.set('General', 'uname', self.uname)
