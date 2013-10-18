@@ -20,7 +20,7 @@ class botConfig:
             self.__config.read('bot.cfg')
 
             self.host = self.__config.get("General", "host")
-            self.channels = self.__config.get("General", "channel").split(',');
+            self.channels = self.__config.get("General", "channels").split(',');
             self.nick = self.__config.get("General", "nick")
             self.uname = self.__config.get("General", "uname")
             self.password = self.__config.get("General", "password")
@@ -30,7 +30,7 @@ class botConfig:
             self.__config.add_section('General')
             self.__config.set('General', 'host', self.host)
             self.__config.set('General', 'charset', self.charset)
-            self.__config.set('General', 'channel', self.channel)
+            self.__config.set('General', 'channels', self.channels)
             self.__config.set('General', 'nick', self.nick)
             self.__config.set('General', 'uname', self.uname)
             self.__config.set('General', 'password', self.password)
