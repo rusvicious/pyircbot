@@ -25,9 +25,9 @@ class ircBot:
                     print "Trying to connect to", self.__config.host                  
                     time.sleep(15);
                 self.__attemptscount+= 1
-                self.Connect()
+                self.__connect()
 				
-    def Connect(self):
+    def __connect(self):
         try:
             self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.sock.connect((self.__config.host, 6667))
@@ -46,7 +46,7 @@ class ircBot:
             self.try_connect()
 
     
-    def getmesInfo(self,msg):
+    def __getmesInfo(self,msg):
         irc_pat = re.compile(ur"""
   ^\s*:
   # nickname:
@@ -79,14 +79,13 @@ class ircBot:
         return match;
     
     def sendMessage(self, msg, channel):
-        self.sock.send('PRIVMSG %s :%s\r\n' % (channel, self.mesEncode(str(msg))))
+        self.sock.send('PRIVMSG %s :%s\r\n' % (channel, self.__mesEncode(str(msg))))
         
     def joinChannels(self, channels):
         for channel in channels:
             self.sock.send('JOIN %s\r\n' % (channel))
 
-
-    def mesEncode(self, text):
+    def __mesEncode(self, text):
         result = text.decode(self.__config.charset,'replace')
         return result
 
@@ -94,7 +93,7 @@ class ircBot:
         while self.connected:
             try:
                 self.__text = self.sock.recv(2040)
-                self.__text = self.mesEncode(self.__text)
+                self.__text = self.__mesEncode(self.__text)
                 
                 if not self.__text:
                     break
@@ -108,12 +107,12 @@ class ircBot:
                 
                 if self.__text.find(u':!сиськи') != -1:
                     boobs = getBoobsUrl()
-                    match = self.getmesInfo(self.__text)
+                    match = self.__getmesInfo(self.__text)
                     self.sendMessage(boobs.url, match.group('channel'))
                 
                 if self.__text.find(u':!котэ') != -1:
                     kote = getkoteUrl()
-                    match = self.getmesInfo(self.__text)
+                    match = self.__getmesInfo(self.__text)
                     self.sendMessage(kote.url, match.group('channel'))
 					
                 if self.__text.find(u':!quit') != -1:
