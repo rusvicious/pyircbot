@@ -9,7 +9,7 @@ class botConfig:
     def __init__(self):
         self.__randomnum = str(random.randrange(10000))
         self.host = "irc.wenet.ru"
-        self.channel = "#Bryansk"
+        self.channels = "#Bryansk"
         self.nick = "Guest" + self.__randomnum
         self.uname = "guest" + self.__randomnum
         self.password = "qwerty"
@@ -20,7 +20,7 @@ class botConfig:
             self.__config.read('bot.cfg')
 
             self.host = self.__config.get("General", "host")
-            self.channel = self.__config.get("General", "channel")
+            self.channels = self.__config.get("General", "channel").split(',');
             self.nick = self.__config.get("General", "nick")
             self.uname = self.__config.get("General", "uname")
             self.password = self.__config.get("General", "password")

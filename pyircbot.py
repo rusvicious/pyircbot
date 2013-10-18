@@ -4,6 +4,8 @@
 import socket
 import time
 import sys
+import re
+
 
 from conf.config import botConfig
 from plugins.boobs import getBoobsUrl
@@ -33,7 +35,7 @@ class ircBot:
                 'USER %s host servname : %s  - Python Bot by RusVicious\r\n' % (self.__config.uname, self.__config.nick))
             self.sock.send('NICK %s\r\n' % (self.__config.nick ))
             self.sock.send('IDENTIFY %s\r\n' % (self.__config.password))
-            self.sock.send('JOIN %s\r\n' % (self.__config.channel))
+            self.joinChannels(self.__config.channels)
             self.connected = True
             self.__attemptscount = 0;
             self.__listening()
@@ -43,14 +45,47 @@ class ircBot:
             print "Could not connect to", self.__config.host  
             self.try_connect()
 
-    def sendMessage(self, msg):
-        self.sock.send('PRIVMSG %s :%s\r\n' % (self.__config.channel, self.mesEncode(str(msg))))
-
-    def getNick(self, text):
-        string = text[:text.find('!')]
-        string = string[1:]
-        return string
+    
+    def getmesInfo(self,msg):
+        irc_pat = re.compile(ur"""
+  ^\s*:
+  # nickname:
+  (?P<nickname>
+    [a-zа-яёЁ_\-\[\]\\^{}|`]
+    [a-zа-яёЁ0-9\-\[\]\\^{}|`]*
+  )
+  !~
+  # ident:
+  (?P<identifier>
+    \w+
+  )
+  @
+  # host:
+  (?P<hostname>
+    .*
+  )
+  \ PRIVMSG\      #
+  # channel
+  (?P<channel>
+    \#\w+
+  )
+  \ :           #
+  # message itself:
+  (?P<message>
+    .*
+  )$
+""", re.VERBOSE | re.UNICODE | re.IGNORECASE)
+        match = irc_pat.match(msg)
+        return match;
+    
+    def sendMessage(self, msg, channel):
+        self.sock.send('PRIVMSG %s :%s\r\n' % (channel, self.mesEncode(str(msg))))
         
+    def joinChannels(self, channels):
+        for channel in channels:
+            self.sock.send('JOIN %s\r\n' % (channel))
+
+
     def mesEncode(self, text):
         result = text.decode(self.__config.charset,'replace')
         return result
@@ -68,16 +103,18 @@ class ircBot:
                     self.sock.send('PONG %s\r\n' % (self.__text.split()[1]))
 
                 if self.__text.find('KICK') != -1:
-                    self.sock.send('JOIN %s\r\n' % (self.__config.channel))
+                    self.joinChannels(self.__config.channels)
 
                 
                 if self.__text.find(u':!сиськи') != -1:
                     boobs = getBoobsUrl()
-                    self.sendMessage(boobs.url)
+                    match = self.getmesInfo(self.__text)
+                    self.sendMessage(boobs.url, match.group('channel'))
                 
                 if self.__text.find(u':!котэ') != -1:
                     kote = getkoteUrl()
-                    self.sendMessage(kote.url)
+                    match = self.getmesInfo(self.__text)
+                    self.sendMessage(kote.url, match.group('channel'))
 					
                 if self.__text.find(u':!quit') != -1:
                     self.sock.send('QUIT Bye!\r\n')
