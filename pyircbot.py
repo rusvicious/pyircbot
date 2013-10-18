@@ -9,7 +9,6 @@ from conf.config import botConfig
 from plugins.boobs import getBoobsUrl
 from plugins.kote import getkoteUrl
 
-
 class ircBot:
     def __init__(self):
         self.__config = botConfig()
