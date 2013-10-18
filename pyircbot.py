@@ -1,5 +1,5 @@
-#!/usr/bin/env python
-# -*- coding: cp1251 -*-
+Ôªø#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 import socket
 import time
@@ -46,7 +46,7 @@ class ircBot:
             self.try_connect()
 
     def sendMessage(self, msg):
-        self.sock.send('PRIVMSG %s :%s\r\n' % (self.__config.channel, str(msg)))
+        self.sock.send('PRIVMSG %s :%s\r\n' % (self.__config.channel, self.mesEncode(str(msg))))
 
     def getNick(self, text):
         string = text[:text.find('!')]
@@ -54,12 +54,15 @@ class ircBot:
         return string
         
     def mesEncode(self, text):
-        return text.encode(self.__config.charset)
+        result = text.decode(self.__config.charset,'replace')
+        return result
 
     def __listening(self):
         while self.connected:
             try:
                 self.__text = self.sock.recv(2040)
+                self.__text = self.mesEncode(self.__text)
+                
                 if not self.__text:
                     break
 
@@ -69,18 +72,19 @@ class ircBot:
                 if self.__text.find('KICK') != -1:
                     self.sock.send('JOIN %s\r\n' % (self.__config.channel))
 
-                if self.__text.find(':!ÒËÒ¸ÍË') != -1:
+                
+                if self.__text.find(u':!—Å–∏—Å—å–∫–∏') != -1:
                     boobs = getBoobsUrl()
                     self.sendMessage(boobs.url)
-
-                if self.__text.find(':!ÍÓÚ˝') != -1:
+                
+                if self.__text.find(u':!–∫–æ—Ç—ç') != -1:
                     kote = getkoteUrl()
                     self.sendMessage(kote.url)
 					
-                if self.__text.find(':!quit') != -1:
+                if self.__text.find(u':!quit') != -1:
                     self.sock.send('QUIT Bye!\r\n')
 
-                print "[GET]", self.__text
+                print "[GET]", self.__text.encode(self.__config.charset);
 
             except socket.error, e:
                 self.connected = False

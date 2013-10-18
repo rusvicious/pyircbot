@@ -1,4 +1,4 @@
-import random
+﻿import random
 import urllib2
 import re
 

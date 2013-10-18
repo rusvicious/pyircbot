@@ -1,3 +1,5 @@
+﻿# -*- coding: utf-8 -*-
+
 import os
 import ConfigParser
 import random
@@ -11,6 +13,7 @@ class botConfig:
         self.nick = "Guest" + self.__randomnum
         self.uname = "guest" + self.__randomnum
         self.password = "qwerty"
+        self.charset = "cp1251"
 
         if os.path.exists('bot.cfg'):
             self.__config = ConfigParser.RawConfigParser()
