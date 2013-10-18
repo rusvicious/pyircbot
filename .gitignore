@@ -1,3 +1,4 @@
 bot.cfg
 *.pyc
 .idea
+.DS_Store
